@@ -1,0 +1,29 @@
+ovo iskoristi u klasi "maze"
+
+class Main {
+	function void main() {
+		var int size;
+		var Point start;
+		var Grid g;
+		var Player p;
+		var char move;
+
+		let size = 20;
+		let start = Point.new((size / 2), 50);
+		let g = Grid.new(size, start);
+
+		do g.draw();
+
+		let p = Player.new(start, size, g.getWidth(), g.getHeight());
+		do p.draw();
+		while (true) {
+			let move = Keyboard.keyPressed();
+			if (move > 0) {
+				do p.move(move);
+				do Sys.wait(200);
+			}
+		}
+
+		return;
+	}
+}

@@ -1,0 +1,47 @@
+class Cell {
+	field int size, row, col;
+	field boolean right, bottom, visited;
+
+	constructor Cell new(int _row, int _col, int _size, Point start) {
+		let size = _size;
+		let row = (_row * size) + start.y();
+		let col = (_col * size) + start.x();
+
+		let right = true;
+		let bottom = true;
+
+		return this;
+	}
+
+	method void draw() {
+		if (right) {
+			do Screen.drawLine(
+				col + size,
+				row,
+				col + size,
+				row + size
+			);
+		}
+
+		if (bottom) {
+			do Screen.drawLine(
+				col + size,
+				row + size,
+				col,
+				row + size
+			);
+		}
+
+		return;
+	}
+
+	method void setRight(boolean b) {
+		let right = b;
+		return;
+	}
+
+	method void setBottom(boolean b) {
+		let bottom = b;
+		return;
+	}
+}

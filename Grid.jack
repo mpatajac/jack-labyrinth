@@ -1,0 +1,92 @@
+class Grid {
+	static int width, height;
+	field Array cells;
+	field Point start;
+	field int rows, cols, size;
+
+	constructor Grid new(int _size, Point _start) {
+		var int i, j, index;
+		var Cell lastCell;
+
+		let start = _start;
+		let size  = _size;
+
+		let width  = 512 - (2 * start.x());
+		let height = 256 - (4 * (start.y() / 3));
+
+		let cols = width / size;
+		let rows = height / size;
+
+		let width  = cols * size;
+		let height = rows * size;
+
+		let cells = Array.new(rows * cols);
+
+		let i = 0;
+		while(i < rows) {
+			let j = 0;
+			while(j < cols) {
+				let index = (i * cols) + j;
+				let cells[index] = Cell.new(i, j, size, start);
+				let j = j + 1;
+			}
+			let i = i + 1;
+		}
+
+		// last cell doesn't have a right wall
+		let lastCell = cells[rows * cols - 1];
+		do lastCell.setRight(false);
+
+		return this;
+	}
+
+	method void draw() {
+		var Cell currentCell;
+		var int i, j;
+
+		// draw upper border
+		do Screen.drawLine(
+			start.x(),
+			start.y(),
+			start.x() + width,
+			start.y()
+		);
+
+		// draw left border (without first cell)
+		do Screen.drawLine(
+			start.x(),
+			start.y() + size,
+			start.x(),
+			start.y() + height
+		);
+
+
+		// draw cells
+		let i = 0;
+		while(i < rows) {
+			let j = 0;
+			while(j < cols) {
+				let currentCell = cells[i * cols + j];
+				do currentCell.draw();
+				let j = j + 1;
+			}
+			let i = i + 1;
+		}
+
+		return;
+	}
+
+	method int getWidth() {
+		return width;
+	}
+
+	method int getHeight() {
+		return height;
+	}
+
+	method void generateMaze() {
+
+
+		return;
+	}
+}

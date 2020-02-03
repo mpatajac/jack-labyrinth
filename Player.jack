@@ -1,0 +1,98 @@
+class Player {
+	static int gridWidth, gridHeight;
+	static Point start;
+	field int x, y, playerSize, cellSize;
+
+	constructor Player new(
+		Point _start,
+		int _cellSize,
+		int gWidth,
+		int gHeight
+	) {
+
+		let start = _start;
+		let gridHeight = gHeight;
+		let gridWidth = gWidth;
+
+		let cellSize = _cellSize;
+		let playerSize = 8 * cellSize / 10;
+
+		let x = (playerSize / 8) + start.x();
+		let y = (playerSize / 8) + start.y();
+
+		return this;
+	}
+
+	method void draw() {
+		do Screen.drawRectangle(
+			x,
+			y,
+			x + playerSize,
+			y + playerSize
+		);
+		return;
+	}
+
+	method void move(int dir) {
+		// delete old square
+		do Screen.setColor(false);
+		do draw();
+
+		// move
+		/*
+			130 -> left
+			131 -> up
+			132 -> right
+			133 -> down
+		*/
+
+		if (dir = 130) {
+			do left();
+		}
+
+		if (dir = 131) {
+			do up();
+		}
+
+		if (dir = 132) {
+			do right();
+		}
+
+		if (dir = 133) {
+			do down();
+		}
+
+		// draw new square
+		do Screen.setColor(true);
+		do draw();
+		return;
+	}
+
+	method void up() {
+		if ((y - playerSize) > start.y()) {
+			let y = y - cellSize;
+		}
+		return;
+	}
+
+	method void down() {
+		if ((y + cellSize) < (start.y() + gridHeight)) {
+			let y = y + cellSize;
+		}
+		return;
+	}
+
+	method void left() {
+		if ((x - playerSize) > start.x()) {
+			let x = x - cellSize;
+		}
+		return;
+	}
+
+	method void right() {
+		if ((x + cellSize) < (start.x() + gridWidth)) {
+			let x = x + cellSize;
+		}
+		return;
+	}
+}
