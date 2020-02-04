@@ -118,6 +118,11 @@ class Grid {
 				do removeWall(currentCell, nextCell);
 			}
 
+			// DEBUG
+			do Screen.clearScreen();
+			do draw();
+			do Sys.wait(250);
+
 			let currentCell = nextCell;
 		}
 

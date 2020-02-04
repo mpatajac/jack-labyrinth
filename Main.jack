@@ -12,6 +12,7 @@ class Main {
 		let start = Point.new((size / 2), 50);
 		let g = Grid.new(size, start);
 
+		do g.generateMaze(500);
 		do g.draw();
 
 		// create player and take input

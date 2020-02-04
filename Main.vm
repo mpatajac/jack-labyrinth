@@ -1,5 +1,5 @@
 function Main.main 5
-push constant 20
+push constant 50
 pop local 0
 push local 0
 push constant 2
@@ -11,6 +11,10 @@ push local 0
 push local 1
 call Grid.new 2
 pop local 2
+push local 2
+push constant 500
+call Grid.generateMaze 2
+pop temp 0
 push local 2
 call Grid.draw 1
 pop temp 0
