@@ -81,6 +81,8 @@ class Grid {
 		return;
 	}
 
+// ------------------------------------------------------------------------
+
 	/** Getter method for grid width */
 	method int getWidth() {
 		return width;
@@ -91,10 +93,79 @@ class Grid {
 		return height;
 	}
 
-	/** Method which generates a random maze */
-	method void generateMaze() {
-		// TODO
+// ------------------------------------------------------------------------
 
+	/** Method which generates a random maze */
+	method void generateMaze(int seed) {
+		var Random r;
+		var Cell currentCell, nextCell;
+
+		// start the RNG
+		let r = Random.new(seed);
+
+		// start from the first cell
+		let currentCell = cells[0];
+
+		while (~(currentCell = null)) {
+			// mark it as visited
+			do currentCell.visit();
+
+			// get an unvisited neighbour (or null if there isn't one)
+			let nextCell = getRandomNeighbour(currentCell, r);
+			let currentCell = nextCell;
+		}
+
+		return;
+	}
+
+	/** Method that return a random unvisited neighbour of current cell (or null) */
+	method Cell getRandomNeighbour(Cell currentCell, Random r) {
+		var Vector neighbours;
+		var int i, j, index;
+
+		let neighbours = Vector.withCapacity(4);
+		let i = currentCell.i();
+		let j = currentCell.j();
+
+		// top
+		do checkAndPush(neighbours, i, j - 1);
+
+		// right
+		do checkAndPush(neighbours, i + 1, j);
+
+		// bottom
+		do checkAndPush(neighbours, i, j + 1);
+
+		// left
+		do checkAndPush(neighbours, i - 1, j);
+
+		// if there are non-visited neighbours, return a random one
+		if (~neighbours.isEmpty()) {
+			let index = r.randRange(0, neighbours.length());
+			return neighbours.at(index);
+		}
+
+		// return null if no options exist
+		return null;
+	}
+
+	/** Helper function that check if (i, j) is in grid bounds */
+	method boolean isValidPosition(int i, int j) {
+		return (~(i < 0) & ~(j < 0) & (i < rows) & (j < cols));
+	}
+
+	/** Add cell to neighbours if it exists and isn't visited */
+	method void checkAndPush(Vector neighbours, int i, int j) {
+		var Cell potentialNeighbour;
+
+		if (~isValidPosition(i, j)) {
+			return;
+		}
+
+		let potentialNeighbour = cells[(i * cols) + j];
+		if (~(potentialNeighbour.isVisited())) {
+			do neighbours.push(potentialNeighbour);
+		}
 		return;
 	}
 }
