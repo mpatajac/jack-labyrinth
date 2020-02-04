@@ -141,15 +141,19 @@ class Grid {
 
 		}
 
+		do stack.dispose();
 		return;
 	}
 
 	/** Method that return a random unvisited neighbour of current cell (or null) */
 	method Cell getRandomNeighbour(Cell currentCell, Random r) {
 		var Vector neighbours;
+		var Cell chosenNeighbour;
 		var int i, j, index;
 
 		let neighbours = Vector.withCapacity(4);
+		let chosenNeighbour = null;
+
 		let i = currentCell.i();
 		let j = currentCell.j();
 
@@ -165,14 +169,14 @@ class Grid {
 		// left
 		do checkAndPush(neighbours, i - 1, j);
 
-		// if there are non-visited neighbours, return a random one
+		// if there are non-visited neighbours, choose a random one
 		if (~neighbours.isEmpty()) {
 			let index = r.randRange(0, neighbours.length());
-			return neighbours.at(index);
+			let chosenNeighbour = neighbours.at(index);
 		}
 
-		// return null if no options exist
-		return null;
+		do neighbours.dispose();
+		return chosenNeighbour;
 	}
 
 	/** Helper function that check if (i, j) is in grid bounds */
