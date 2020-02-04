@@ -112,6 +112,12 @@ class Grid {
 
 			// get an unvisited neighbour (or null if there isn't one)
 			let nextCell = getRandomNeighbour(currentCell, r);
+
+			// if there is one, remove the wall between it and current
+			if (~(nextCell = null)) {
+				do removeWall(currentCell, nextCell);
+			}
+
 			let currentCell = nextCell;
 		}
 
@@ -166,6 +172,30 @@ class Grid {
 		if (~(potentialNeighbour.isVisited())) {
 			do neighbours.push(potentialNeighbour);
 		}
+		return;
+	}
+
+	method void removeWall(Cell a, Cell b) {
+		if (a.i() < b.i()) {
+			do a.setBottom(false);
+			return;
+		}
+
+		if (a.i() > b.i()) {
+			do b.setBottom(false);
+			return;
+		}
+
+		if (a.j() < b.j()) {
+			do a.setRight(false);
+			return;
+		}
+
+		if (a.j() > b.j()) {
+			do b.setRight(false);
+			return;
+		}
+
 		return;
 	}
 }
