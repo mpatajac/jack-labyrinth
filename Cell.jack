@@ -2,18 +2,22 @@ class Cell {
 	field int size, row, col;
 	field boolean right, bottom, visited;
 
+	/** Constructor function for the Cell object */
 	constructor Cell new(int _row, int _col, int _size, Point start) {
 		let size = _size;
 		let row = (_row * size) + start.y();
 		let col = (_col * size) + start.x();
 
+		// when first created, both the right and bottom walls exist
 		let right = true;
 		let bottom = true;
 
 		return this;
 	}
 
+	/** Method for drawing the cell onto the screen */
 	method void draw() {
+		// if exists, draw the right wall
 		if (right) {
 			do Screen.drawLine(
 				col + size,
@@ -23,6 +27,7 @@ class Cell {
 			);
 		}
 
+		// if exists, draw the bottom wall
 		if (bottom) {
 			do Screen.drawLine(
 				col + size,
@@ -35,11 +40,13 @@ class Cell {
 		return;
 	}
 
+	/** Setter method for the right wall */
 	method void setRight(boolean b) {
 		let right = b;
 		return;
 	}
 
+	/** Setter method for the bottom wall */
 	method void setBottom(boolean b) {
 		let bottom = b;
 		return;

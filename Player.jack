@@ -3,6 +3,7 @@ class Player {
 	static Point start;
 	field int x, y, playerSize, cellSize;
 
+	/** Constructor function for the Player object */
 	constructor Player new(
 		Point _start,
 		int _cellSize,
@@ -14,15 +15,18 @@ class Player {
 		let gridHeight = gHeight;
 		let gridWidth = gWidth;
 
+		// make player a bit smaller than the cell
 		let cellSize = _cellSize;
 		let playerSize = 8 * cellSize / 10;
 
+		// set player to top-left cell
 		let x = (playerSize / 8) + start.x();
 		let y = (playerSize / 8) + start.y();
 
 		return this;
 	}
 
+	/** Method for drawing the player square onto the screen */
 	method void draw() {
 		do Screen.drawRectangle(
 			x,
@@ -33,7 +37,14 @@ class Player {
 		return;
 	}
 
+	/** Method for moving the player square in desired direction */
 	method void move(int dir) {
+		/*
+			1. delete the old square from screen
+			2. move the player object to desired position
+			3. redraw the player square to sreen
+		*/
+
 		// delete old square
 		do Screen.setColor(false);
 		do draw();
@@ -68,6 +79,7 @@ class Player {
 		return;
 	}
 
+	/** Helper method for upwards movement (if possible) */
 	method void up() {
 		if ((y - playerSize) > start.y()) {
 			let y = y - cellSize;
@@ -75,6 +87,7 @@ class Player {
 		return;
 	}
 
+	/** Helper method for downwards movement (if possible) */
 	method void down() {
 		if ((y + cellSize) < (start.y() + gridHeight)) {
 			let y = y + cellSize;
@@ -82,6 +95,7 @@ class Player {
 		return;
 	}
 
+	/** Helper method for leftwards movement (if possible) */
 	method void left() {
 		if ((x - playerSize) > start.x()) {
 			let x = x - cellSize;
@@ -89,6 +103,7 @@ class Player {
 		return;
 	}
 
+	/** Helper method for rightwards movement (if possible) */
 	method void right() {
 		if ((x + cellSize) < (start.x() + gridWidth)) {
 			let x = x + cellSize;

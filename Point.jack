@@ -1,5 +1,8 @@
+/** Wrapper class for a pair of coordinates */
 class Point {
 	field int x, y;
+
+	/** Constructor function for the Point object */
 	constructor Point new(int _x, int _y) {
 		let x = _x;
 		let y = _y;
@@ -7,10 +10,12 @@ class Point {
 		return this;
 	}
 
+	/** Getter method for the x coordinate */
 	method int x() {
 		return x;
 	}
 
+	/** Getter method for the y coordinate */
 	method int y() {
 		return y;
 	}

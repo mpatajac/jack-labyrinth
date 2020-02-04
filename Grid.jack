@@ -4,6 +4,7 @@ class Grid {
 	field Point start;
 	field int rows, cols, size;
 
+	/** Constructor function for the Grid object */
 	constructor Grid new(int _size, Point _start) {
 		var int i, j, index;
 		var Cell lastCell;
@@ -11,17 +12,20 @@ class Grid {
 		let start = _start;
 		let size  = _size;
 
+		// set (potential) dimensions by removing offset
 		let width  = 512 - (2 * start.x());
 		let height = 256 - (4 * (start.y() / 3));
 
+		// determine the number of columns and rows according to cell size
 		let cols = width / size;
 		let rows = height / size;
 
+		// adjust the grid dimensions to actual dimensions
 		let width  = cols * size;
 		let height = rows * size;
 
+		// create an array of cells (actual grid) and fill it
 		let cells = Array.new(rows * cols);
-
 		let i = 0;
 		while(i < rows) {
 			let j = 0;
@@ -40,6 +44,7 @@ class Grid {
 		return this;
 	}
 
+	/** Method for drawing the grid onto the screen */
 	method void draw() {
 		var Cell currentCell;
 		var int i, j;
@@ -76,16 +81,19 @@ class Grid {
 		return;
 	}
 
+	/** Getter method for grid width */
 	method int getWidth() {
 		return width;
 	}
 
+	/** Getter method for grid height */
 	method int getHeight() {
 		return height;
 	}
 
+	/** Method which generates a random maze */
 	method void generateMaze() {
-
+		// TODO
 
 		return;
 	}
