@@ -1,0 +1,155 @@
+class Vector {
+	field Array A;
+	field int capacity, length;
+
+
+	/** Default constructor */
+	constructor Vector new() {
+		let A = Array.new(1);
+		let capacity = 1;
+		let length = 0;
+
+		return this;
+	}
+
+	/** Creates vector with predetermined capacity */
+	constructor Vector withCapacity(int n) {
+		let A = Array.new(n);
+		let capacity = n;
+		let length = 0;
+
+		return this;
+	}
+
+
+	/** Add element to the end of the vector, possibly extending it */
+	method void push(Cell x) {
+		if (length = capacity) {
+			do _expand();
+		}
+		let A[length] = x;
+		let length = length + 1;
+		return;
+	}
+
+	/** Remove last element of the vector */
+	method void pop() {
+		if (length = 0) {
+			do Sys.error(18);
+		}
+		let length = length - 1;
+
+		return;
+	}
+
+	/** Getter method for field "length" */
+	method int length() {
+		return length;
+	}
+
+
+	/** Fetch first element of the vector */
+	method Cell front() {
+		return A[0];
+	}
+
+	/** Fetch last element of the vector */
+	method Cell back() {
+		return A[length-1];
+	}
+
+	/** Fetch i-th element of the vector */
+	method Cell at(int i) {
+		return A[i];
+	}
+
+
+	/** Doubles the vector capacity */
+	method void _expand() {
+		var Array B;
+		var int i;
+
+		let capacity = 2*capacity;
+		let B = Array.new(capacity);
+
+		// Copy elements to new array
+		let i = 0;
+		while (i < length) {
+			let B[i] = A[i];
+			let i = i + 1;
+		}
+
+		do A.dispose();
+		let A = B;
+		return;
+	}
+
+
+	/** Checks if the vector is empty */
+	method boolean isEmpty() {
+		return length = 0;
+	}
+
+
+	/** Reserves (possibly) additional memory */
+	method void reserve(int n) {
+		if (n > capacity) {
+			let capacity = n/2;
+			do _expand();
+		}
+
+		return;
+	}
+
+
+	/** Prints the contents of the vector */
+	method void print() {
+		var int i;
+		let i = 0;
+
+		while (i < length) {
+			do Output.printInt(A[i]);
+			do Output.printChar(32);
+			let i = i + 1;
+		}
+		do Output.println();
+
+		return;
+	}
+
+	/** Outputs vector info in a debug-friendly manner */
+	method void dbg() {
+		var int i;
+
+		do Output.printString("length: ");
+		do Output.printInt(length);
+
+		do Output.printString("    capacity: ");
+		do Output.printInt(capacity);
+
+		do Output.println();
+
+		let i = 0;
+		while (i < length) {
+			do Output.printString("i: ");
+			do Output.printInt(i);
+
+			do Output.printString("    A[i]: ");
+			do Output.printInt(A[i]);
+			do Output.println();
+
+			let i = i + 1;
+		}
+		do Output.println();
+
+		return;
+	}
+
+
+	/** Destructor */
+	method void dispose() {
+		do A.dispose();
+
+		return;
+	}
+}

@@ -1,0 +1,51 @@
+class Random {
+	field int number, a, m;
+
+	/** Helper function to calculate a % b */
+	function int _mod(int a, int b) {
+		return (a - ((a/b)*b));
+	}
+
+
+	/** Sets the initial number (seed) and constants used in calculation */
+	constructor Random new(int seed) {
+		let number = seed;
+		let a = 219;
+		let m = 32749;
+
+		return this;
+	}
+
+
+	/** Generates the next number in the series and returns it */
+	method int next() {
+		var int q, r;
+
+		let q = m / a;
+		let r = Random._mod(m, a);
+
+		let number = ((a * Random._mod(number, q)) - (r * (number/q)));
+		if (number < 0) {
+			let number = number + m;
+		}
+
+		return number;
+	}
+
+	/** Generates a new number, converts it to range [a, b) */
+	method int randRange(int a, int b) {
+		var int n;
+
+		let n = next();
+		return (Random._mod(n, (b-a)) + a);
+	}
+
+
+	/** Debug function (prints current number) */
+	method void printNumber() {
+		do Output.printInt(number);
+		do Output.println();
+
+		return;
+	}
+}
