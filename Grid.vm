@@ -187,56 +187,73 @@ push argument 0
 pop pointer 0
 push static 1
 return
-function Grid.generateMaze 3
+function Grid.generateMaze 4
 push argument 0
 pop pointer 0
 push argument 1
 call Random.new 1
 pop local 0
+call Vector.new 0
+pop local 1
 push constant 0
 push this 0
 add
 pop pointer 1
 push that 0
-pop local 1
+pop local 2
 label WHILE_EXP0
-push local 1
+push local 2
 push constant 0
 eq
 not
 not
 if-goto WHILE_END0
-push local 1
+push local 2
 call Cell.visit 1
 pop temp 0
 push pointer 0
-push local 1
+push local 2
 push local 0
 call Grid.getRandomNeighbour 3
-pop local 2
-push local 2
+pop local 3
+push local 3
 push constant 0
 eq
 not
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push pointer 0
 push local 1
 push local 2
-call Grid.removeWall 3
-pop temp 0
-label IF_FALSE0
-call Screen.clearScreen 0
+call Vector.push 2
 pop temp 0
 push pointer 0
-call Grid.draw 1
-pop temp 0
-push constant 250
-call Sys.wait 1
-pop temp 0
 push local 2
-pop local 1
+push local 3
+call Grid.removeWall 3
+pop temp 0
+push local 3
+pop local 2
+goto IF_END0
+label IF_FALSE0
+push local 1
+call Vector.isEmpty 1
+not
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 1
+call Vector.back 1
+pop local 2
+push local 1
+call Vector.pop 1
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push constant 0
+pop local 2
+label IF_END1
+label IF_END0
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0

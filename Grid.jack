@@ -98,10 +98,14 @@ class Grid {
 	/** Method which generates a random maze */
 	method void generateMaze(int seed) {
 		var Random r;
+		var Vector stack;
 		var Cell currentCell, nextCell;
 
 		// start the RNG
 		let r = Random.new(seed);
+
+		// initiate empty stack
+		let stack = Vector.new();
 
 		// start from the first cell
 		let currentCell = cells[0];
@@ -113,17 +117,28 @@ class Grid {
 			// get an unvisited neighbour (or null if there isn't one)
 			let nextCell = getRandomNeighbour(currentCell, r);
 
-			// if there is one, remove the wall between it and current
+			// if there is one
 			if (~(nextCell = null)) {
+				// push the current cell onto the stack
+				do stack.push(currentCell);
+
+				// remove the wall between it and current
 				do removeWall(currentCell, nextCell);
+
+				let currentCell = nextCell;
+
+			} else {
+				if (~(stack.isEmpty())) {
+					// return to previous cell
+					let currentCell = stack.back();
+					do stack.pop();
+
+				} else {
+					// end the loop
+					let currentCell = null;
+				}
 			}
 
-			// DEBUG
-			do Screen.clearScreen();
-			do draw();
-			do Sys.wait(250);
-
-			let currentCell = nextCell;
 		}
 
 		return;
