@@ -1,16 +1,25 @@
 class Cell {
-	field int size, row, col;
+	field int size, row, col, i, j;
 	field boolean right, bottom, visited;
 
 	/** Constructor function for the Cell object */
 	constructor Cell new(int _row, int _col, int _size, Point start) {
 		let size = _size;
-		let row = (_row * size) + start.y();
-		let col = (_col * size) + start.x();
+
+		// position in the grid array
+		let i = _row;
+		let j = _col;
+
+		// actual position on the screen
+		let row = (i * size) + start.y();
+		let col = (j * size) + start.x();
 
 		// when first created, both the right and bottom walls exist
 		let right = true;
 		let bottom = true;
+
+		// when first created, the cell isn't visited
+		let visited = false;
 
 		return this;
 	}
@@ -50,5 +59,21 @@ class Cell {
 	method void setBottom(boolean b) {
 		let bottom = b;
 		return;
+	}
+
+	/** Method for switching the "visited" field from false to true */
+	method void visit() {
+		let visited = true;
+		return;
+	}
+
+	/** Getter method for field 'i' */
+	method int i() {
+		return i;
+	}
+
+	/** Getter method for field 'j' */
+	method int j() {
+		return j;
 	}
 }
