@@ -49,6 +49,17 @@ class Cell {
 		return;
 	}
 
+	/** Helper method (draw visited cells as black squares) */
+	method void drawDbg() {
+		if (visited) {
+			do Screen.drawRectangle(col, row, col+size, row+size);
+		} else {
+			do draw();
+		}
+
+		return;
+	}
+
 	/** Setter method for the right wall */
 	method void setRight(boolean b) {
 		let right = b;
@@ -65,6 +76,11 @@ class Cell {
 	method void visit() {
 		let visited = true;
 		return;
+	}
+
+	/** Check if this cell has been visited */
+	method boolean isVisited() {
+		return visited;
 	}
 
 	/** Getter method for field 'i' */
