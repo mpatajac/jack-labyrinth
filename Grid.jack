@@ -93,6 +93,21 @@ class Grid {
 		return height;
 	}
 
+	/** Getter method for cells */
+	method Array cells() {
+		return cells;
+	}
+
+	/** Getter method for the amount of columns */
+	method int getCols() {
+		return cols;
+	}
+
+	/** Getter method for the amount of rows */
+	method int getRows() {
+		return rows;
+	}
+
 // ------------------------------------------------------------------------
 
 	/** Method which generates a random maze */

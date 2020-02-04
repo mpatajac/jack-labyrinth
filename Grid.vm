@@ -187,6 +187,21 @@ push argument 0
 pop pointer 0
 push static 1
 return
+function Grid.cells 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Grid.getCols 0
+push argument 0
+pop pointer 0
+push this 3
+return
+function Grid.getRows 0
+push argument 0
+pop pointer 0
+push this 2
+return
 function Grid.generateMaze 4
 push argument 0
 pop pointer 0

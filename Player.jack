@@ -1,27 +1,25 @@
 class Player {
-	static int gridWidth, gridHeight;
+	static Grid grid;
 	static Point start;
-	field int x, y, playerSize, cellSize;
+	field int i, j, x, y, playerSize, cellSize;
 
 	/** Constructor function for the Player object */
-	constructor Player new(
-		Point _start,
-		int _cellSize,
-		int gWidth,
-		int gHeight
-	) {
-
+	constructor Player new(Point _start, int _cellSize, Grid g) {
 		let start = _start;
-		let gridHeight = gHeight;
-		let gridWidth = gWidth;
+		let grid = g;
 
 		// make player a bit smaller than the cell
 		let cellSize = _cellSize;
 		let playerSize = 8 * cellSize / 10;
 
 		// set player to top-left cell
+		// x, y -> screen coordinates
 		let x = (playerSize / 8) + start.x();
 		let y = (playerSize / 8) + start.y();
+
+		// i, j -> grid coordinates
+		let i = 0;
+		let j = 0;
 
 		return this;
 	}
@@ -45,11 +43,15 @@ class Player {
 			3. redraw the player square to sreen
 		*/
 
+		var Array cells;
+
 		// delete old square
 		do Screen.setColor(false);
 		do draw();
 
 		// move
+		let cells = grid.cells();
+
 		/*
 			130 -> left
 			131 -> up
@@ -58,19 +60,19 @@ class Player {
 		*/
 
 		if (dir = 130) {
-			do left();
+			do left(cells);
 		}
 
 		if (dir = 131) {
-			do up();
+			do up(cells);
 		}
 
 		if (dir = 132) {
-			do right();
+			do right(cells);
 		}
 
 		if (dir = 133) {
-			do down();
+			do down(cells);
 		}
 
 		// draw new square
@@ -80,33 +82,53 @@ class Player {
 	}
 
 	/** Helper method for upwards movement (if possible) */
-	method void up() {
-		if ((y - playerSize) > start.y()) {
-			let y = y - cellSize;
+	method void up(Array cells) {
+		var Cell cellToCheck;
+		if (grid.isValidPosition(j - 1, i)) {
+			let cellToCheck = cells[((j - 1) * grid.getCols()) + i];
+			if (~(cellToCheck.bottom())) {
+				let y = y - cellSize;
+				let j = j - 1;
+			}
 		}
 		return;
 	}
 
 	/** Helper method for downwards movement (if possible) */
-	method void down() {
-		if ((y + cellSize) < (start.y() + gridHeight)) {
-			let y = y + cellSize;
+	method void down(Array cells) {
+		var Cell cellToCheck;
+		if (grid.isValidPosition(j + 1, i)) {
+			let cellToCheck = cells[(j * grid.getCols()) + i];
+			if (~(cellToCheck.bottom())) {
+				let y = y + cellSize;
+				let j = j + 1;
+			}
 		}
 		return;
 	}
 
 	/** Helper method for leftwards movement (if possible) */
-	method void left() {
-		if ((x - playerSize) > start.x()) {
-			let x = x - cellSize;
+	method void left(Array cells) {
+		var Cell cellToCheck;
+		if (grid.isValidPosition(j, i - 1)) {
+			let cellToCheck = cells[(j * grid.getCols()) + (i - 1)];
+			if (~(cellToCheck.right())) {
+				let x = x - cellSize;
+				let i = i - 1;
+			}
 		}
 		return;
 	}
 
 	/** Helper method for rightwards movement (if possible) */
-	method void right() {
-		if ((x + cellSize) < (start.x() + gridWidth)) {
-			let x = x + cellSize;
+	method void right(Array cells) {
+		var Cell cellToCheck;
+		if (grid.isValidPosition(j, i + 1)) {
+			let cellToCheck = cells[(j * grid.getCols()) + i];
+			if (~(cellToCheck.right())) {
+				let x = x + cellSize;
+				let i = i + 1;
+			}
 		}
 		return;
 	}

@@ -12,7 +12,7 @@ push local 1
 call Grid.new 2
 pop local 2
 push local 2
-push constant 500
+push constant 339
 call Grid.generateMaze 2
 pop temp 0
 push local 2
@@ -21,10 +21,7 @@ pop temp 0
 push local 1
 push local 0
 push local 2
-call Grid.getWidth 1
-push local 2
-call Grid.getHeight 1
-call Player.new 4
+call Player.new 3
 pop local 3
 push local 3
 call Player.draw 1

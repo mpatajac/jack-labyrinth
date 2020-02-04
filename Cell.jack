@@ -49,14 +49,9 @@ class Cell {
 		return;
 	}
 
-	/** Helper method (draw visited cells as black squares) */
+	/** Helper method (draw cell as a black square) */
 	method void drawDbg() {
-		if (visited) {
-			do Screen.drawRectangle(col, row, col+size, row+size);
-		} else {
-			do draw();
-		}
-
+		do Screen.drawRectangle(col, row, col+size, row+size);
 		return;
 	}
 
@@ -72,10 +67,14 @@ class Cell {
 		return;
 	}
 
-	/** Method for switching the "visited" field from false to true */
-	method void visit() {
-		let visited = true;
-		return;
+	/** Check if the right wall exists */
+	method boolean right() {
+		return right;
+	}
+
+	/** Check if the bottom wall exists */
+	method boolean bottom() {
+		return bottom;
 	}
 
 	/** Check if this cell has been visited */
@@ -91,5 +90,11 @@ class Cell {
 	/** Getter method for field 'j' */
 	method int j() {
 		return j;
+	}
+
+	/** Method for switching the "visited" field from false to true */
+	method void visit() {
+		let visited = true;
+		return;
 	}
 }

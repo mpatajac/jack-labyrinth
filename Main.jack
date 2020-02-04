@@ -16,7 +16,7 @@ class Main {
 		do g.draw();
 
 		// create player and take input
-		let p = Player.new(start, size, g.getWidth(), g.getHeight());
+		let p = Player.new(start, size, g);
 		do p.draw();
 		while (true) {
 			let move = Keyboard.keyPressed();
