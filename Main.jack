@@ -1,9 +1,9 @@
-/** Driver code (later to be transfered to Maze.jack) */
+/** Driver code */
 class Main {
 	function void main() {
 		var int size;
-		var Point start;
-		var Grid g;
+		var Maze m;
+
 		var Player p;
 		var char move;
 
@@ -11,16 +11,13 @@ class Main {
 		var char beginGame;
 		var boolean gameHasEnded;
 
-		// set up the grid
-		let size = 20;
-		let start = Point.new((size / 2), 50);
-		let g = Grid.new(size, start);
-
 		// set game state
 		let seed = 0;
 		let beginGame = 0;
 		let gameHasEnded = false;
-		let lastCellIndex = (g.getRows() * g.getCols()) - 1;
+
+		// TODO - set it according to user input
+		let size = 20;
 
 		// wait for input -> used to determine RNG seed
 		do Output.printString("Press any key to start: ");
@@ -32,11 +29,12 @@ class Main {
 		// clear screen and draw the grid
 		do Screen.clearScreen();
 		do Output.moveCursor(0, 0);
-		do g.generateMaze(seed);
-		do g.draw();
+		let m = Maze.new(seed, 20);
+
+		let lastCellIndex = (m.getRows() * m.getCols()) - 1;
 
 		// create player and start the game
-		let p = Player.new(start, size, g);
+		let p = Player.new(m.getStart(), size, m.getGrid());
 		do p.draw();
 
 		while (~(gameHasEnded)) {
@@ -46,7 +44,7 @@ class Main {
 				do Sys.wait(200);
 
 				// check for end
-				let gridIndex = (p.j() * g.getCols()) + p.i();
+				let gridIndex = (p.j() * m.getCols()) + p.i();
 				if (gridIndex = lastCellIndex) {
 					let gameHasEnded = true;
 					do Output.printString("You completed the maze!");

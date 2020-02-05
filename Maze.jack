@@ -1,0 +1,42 @@
+/** Wrapper class for the "grid" object */
+class Maze {
+	field int size;
+	field Point start;
+	field Grid g;
+
+	/** Constructor function for the Maze class (generates and draws the grid) */
+	constructor Maze new(int seed, int _size) {
+		// set up and create the grid
+		let size = _size;
+		let start = Point.new((size / 2), 50);
+		let g = Grid.new(size, start);
+
+		// turn the grid into a maze and draw it
+		do g.generateMaze(seed);
+		do g.draw();
+
+		return this;
+	}
+
+// ------------------------------------------------------------------------
+
+	/** Getter method for the amount of columns */
+	method int getCols() {
+		return g.getCols();
+	}
+
+	/** Getter method for the amount of rows */
+	method int getRows() {
+		return g.getRows();
+	}
+
+	/** Getter method used to access the grid */
+	method Grid getGrid() {
+		return g;
+	}
+
+	/** Getter method used to access the start of the grid */
+	method Point getStart() {
+		return start;
+	}
+}
