@@ -2,9 +2,9 @@
 class Main {
 	function void main() {
 		var int size;
-		var Maze m;
+		var Maze maze;
 
-		var Player p;
+		var Player player;
 		var char move;
 
 		var int seed, lastCellIndex;
@@ -29,21 +29,21 @@ class Main {
 		// clear screen and draw the grid
 		do Screen.clearScreen();
 		do Output.moveCursor(0, 0);
-		let m = Maze.new(seed, size);
+		let maze = Maze.new(seed, size);
 
-		let lastCellIndex = (m.getRows() * m.getCols()) - 1;
+		let lastCellIndex = (maze.getRows() * maze.getCols()) - 1;
 
 		// create player and start the game
-		let p = Player.new(m.getStart(), size, m.getGrid());
-		do p.draw();
+		let player = Player.new(maze.getStart(), size, maze.getGrid());
+		do player.draw();
 
 		while (~(gameHasEnded)) {
 			let move = Keyboard.keyPressed();
 			if (move > 0) {
-				do p.move(move);
+				do player.move(move);
 				do Sys.wait(200);
 
-				let gameHasEnded = Main.checkForEnd(p, m, lastCellIndex);
+				let gameHasEnded = Main.checkForEnd(player, maze, lastCellIndex);
 			}
 		}
 
@@ -51,11 +51,11 @@ class Main {
 	}
 
 	/** Checks if the game has ended */
-	function boolean checkForEnd(Player p, Maze m, int lastCellIndex) {
+	function boolean checkForEnd(Player player, Maze maze, int lastCellIndex) {
 		var int gridIndex;
 
 		// players current position in the grid
-		let gridIndex = (p.j() * m.getCols()) + p.i();
+		let gridIndex = (player.j() * maze.getCols()) + player.i();
 		if (gridIndex = lastCellIndex) {
 			do Output.printString("You completed the maze!");
 			return true;
