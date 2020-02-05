@@ -132,4 +132,15 @@ class Player {
 		}
 		return;
 	}
+
+
+	/** Getter method for the 'i' coordinate */
+	method int i() {
+		return i;
+	}
+
+	/** Getter method for the 'j' coordinate */
+	method int j() {
+		return j;
+	}
 }
