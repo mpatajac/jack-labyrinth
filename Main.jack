@@ -38,7 +38,7 @@ class Main {
 
 		// "Loading screen" (for harder mazes)
 		do Screen.clearScreen();
-		do Output.moveCursor(0, 0);
+		do Output.moveCursor(10, 15);
 		do Output.printString("Generating maze, please wait ...");
 		do Sys.wait(300);
 
