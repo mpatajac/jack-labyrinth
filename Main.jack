@@ -7,12 +7,25 @@ class Main {
 		var Player p;
 		var char move;
 
+		var int seed;
+		var char flag;
+
 		// set up and draw the grid
 		let size = 20;
 		let start = Point.new((size / 2), 50);
 		let g = Grid.new(size, start);
 
-		do g.generateMaze(500);
+		let seed = 0;
+		let flag = 0;
+
+		do Output.printString("Press any key to start: ");
+		while (flag = 0) {
+			let flag = Keyboard.keyPressed();
+			let seed = seed + 1;
+		}
+
+		do Screen.clearScreen();
+		do g.generateMaze(seed);
 		do g.draw();
 
 		// create player and take input
