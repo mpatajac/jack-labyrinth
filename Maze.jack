@@ -11,8 +11,12 @@ class Maze {
 		let start = Point.new((size / 2), 50);
 		let g = Grid.new(size, start);
 
-		// turn the grid into a maze and draw it
+		// turn the grid into a maze
 		do g.generateMaze(seed);
+
+		// draw the maze
+		do Screen.clearScreen();
+		do Output.moveCursor(0, 0);
 		do g.draw();
 
 		return this;

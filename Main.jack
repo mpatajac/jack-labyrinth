@@ -8,27 +8,43 @@ class Main {
 		var char move;
 
 		var int seed, lastCellIndex;
-		var char beginGame;
+		var char difficulty;
 		var boolean gameHasEnded;
 
 		// set game state
 		let seed = 0;
-		let beginGame = 0;
+		let difficulty = 0;
 		let gameHasEnded = false;
 
-		// TODO - set it according to user input
-		let size = 35;
+
+		// beginning text
+		do Output.printString("Welcome to Jack Labyrinth!");
+		do Output.println();
+		do Output.printString("Choose difficulty: ");
+		do Output.println();
+		do Output.println();
+		do Output.printString("  1 - easy");
+		do Output.println();
+		do Output.printString("  2 - medium");
+		do Output.println();
+		do Output.printString("  3 - hard");
 
 		// wait for input -> used to determine RNG seed
-		do Output.printString("Press any key to start: ");
-		while (beginGame = 0) {
-			let beginGame = Keyboard.keyPressed();
+		while (difficulty = 0) {
+			let difficulty = Keyboard.keyPressed();
 			let seed = seed + 1;
 		}
 
-		// clear screen and draw the grid
+		// "Loading screen" (for harder mazes)
 		do Screen.clearScreen();
 		do Output.moveCursor(0, 0);
+		do Output.printString("Generating maze, please wait ...");
+		do Sys.wait(300);
+
+		// set size according to difficulty
+		let size = Main.setDifficulty(difficulty);
+
+		// generate and draw the maze
 		let maze = Maze.new(seed, size);
 
 		let lastCellIndex = (maze.getRows() * maze.getCols()) - 1;
@@ -62,5 +78,20 @@ class Main {
 		}
 
 		return false;
+	}
+
+	function int setDifficulty(int difficulty) {
+		// hard (ascii(3) => 51)
+		if (difficulty = 51) {
+			return 13;
+		}
+
+		// medium (ascii(2) => 50)
+		if (difficulty = 50) {
+			return 24;
+		}
+
+		// easy (or invalid input)
+		return 35;
 	}
 }
