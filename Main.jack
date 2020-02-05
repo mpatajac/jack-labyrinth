@@ -7,13 +7,14 @@ class Main {
 		var Player player;
 		var char move;
 
-		var int seed, lastCellIndex;
+		var int seed, lastCellIndex, moveCount;
 		var char difficulty;
 		var boolean gameHasEnded;
 
 		// set game state
 		let seed = 0;
 		let difficulty = 0;
+		let moveCount = 0;
 		let gameHasEnded = false;
 
 
@@ -56,10 +57,14 @@ class Main {
 		while (~(gameHasEnded)) {
 			let move = Keyboard.keyPressed();
 			if (move > 0) {
+				let moveCount = moveCount + 1;
+
 				do player.move(move);
 				do Sys.wait(200);
 
-				let gameHasEnded = Main.checkForEnd(player, maze, lastCellIndex);
+				let gameHasEnded = Main.checkForEnd(
+					player, maze, lastCellIndex, moveCount
+				);
 			}
 		}
 
@@ -67,13 +72,22 @@ class Main {
 	}
 
 	/** Checks if the game has ended */
-	function boolean checkForEnd(Player player, Maze maze, int lastCellIndex) {
+	function boolean checkForEnd(
+		Player player,
+		Maze maze,
+		int lastCellIndex,
+		int moveCount
+	) {
 		var int gridIndex;
 
 		// players current position in the grid
 		let gridIndex = (player.j() * maze.getCols()) + player.i();
 		if (gridIndex = lastCellIndex) {
 			do Output.printString("You completed the maze!");
+			do Output.println();
+			do Output.printString("It took you ");
+			do Output.printInt(moveCount);
+			do Output.printString(" moves.");
 			return true;
 		}
 
