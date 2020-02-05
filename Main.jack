@@ -7,7 +7,7 @@ class Main {
 		var Player p;
 		var char move;
 
-		var int seed, gridIndex, lastCellIndex;
+		var int seed, lastCellIndex;
 		var char beginGame;
 		var boolean gameHasEnded;
 
@@ -17,7 +17,7 @@ class Main {
 		let gameHasEnded = false;
 
 		// TODO - set it according to user input
-		let size = 20;
+		let size = 35;
 
 		// wait for input -> used to determine RNG seed
 		do Output.printString("Press any key to start: ");
@@ -29,7 +29,7 @@ class Main {
 		// clear screen and draw the grid
 		do Screen.clearScreen();
 		do Output.moveCursor(0, 0);
-		let m = Maze.new(seed, 20);
+		let m = Maze.new(seed, size);
 
 		let lastCellIndex = (m.getRows() * m.getCols()) - 1;
 
@@ -43,15 +43,24 @@ class Main {
 				do p.move(move);
 				do Sys.wait(200);
 
-				// check for end
-				let gridIndex = (p.j() * m.getCols()) + p.i();
-				if (gridIndex = lastCellIndex) {
-					let gameHasEnded = true;
-					do Output.printString("You completed the maze!");
-				}
+				let gameHasEnded = Main.checkForEnd(p, m, lastCellIndex);
 			}
 		}
 
 		return;
+	}
+
+	/** Checks if the game has ended */
+	function boolean checkForEnd(Player p, Maze m, int lastCellIndex) {
+		var int gridIndex;
+
+		// players current position in the grid
+		let gridIndex = (p.j() * m.getCols()) + p.i();
+		if (gridIndex = lastCellIndex) {
+			do Output.printString("You completed the maze!");
+			return true;
+		}
+
+		return false;
 	}
 }
