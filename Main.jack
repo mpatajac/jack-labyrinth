@@ -7,35 +7,50 @@ class Main {
 		var Player p;
 		var char move;
 
-		var int seed;
-		var char flag;
+		var int seed, gridIndex, lastCellIndex;
+		var char beginGame;
+		var boolean gameHasEnded;
 
-		// set up and draw the grid
+		// set up the grid
 		let size = 20;
 		let start = Point.new((size / 2), 50);
 		let g = Grid.new(size, start);
 
+		// set game state
 		let seed = 0;
-		let flag = 0;
+		let beginGame = 0;
+		let gameHasEnded = false;
+		let lastCellIndex = (g.getRows() * g.getCols()) - 1;
 
+		// wait for input -> used to determine RNG seed
 		do Output.printString("Press any key to start: ");
-		while (flag = 0) {
-			let flag = Keyboard.keyPressed();
+		while (beginGame = 0) {
+			let beginGame = Keyboard.keyPressed();
 			let seed = seed + 1;
 		}
 
+		// clear screen and draw the grid
 		do Screen.clearScreen();
+		do Output.moveCursor(0, 0);
 		do g.generateMaze(seed);
 		do g.draw();
 
-		// create player and take input
+		// create player and start the game
 		let p = Player.new(start, size, g);
 		do p.draw();
-		while (true) {
+
+		while (~(gameHasEnded)) {
 			let move = Keyboard.keyPressed();
 			if (move > 0) {
 				do p.move(move);
 				do Sys.wait(200);
+
+				// check for end
+				let gridIndex = (p.j() * g.getCols()) + p.i();
+				if (gridIndex = lastCellIndex) {
+					let gameHasEnded = true;
+					do Output.printString("You completed the maze!");
+				}
 			}
 		}
 
