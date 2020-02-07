@@ -7,16 +7,22 @@ class Main {
 		var Player player;
 		var char move;
 
-		var int seed, lastCellIndex, moveCount;
+		var int seed, lastCellIndex;
 		var char difficulty, key;
 		var boolean gameHasEnded, difficultyChosen;
 
 		var Arrow leftArrow, rightArrow;
 
+		var int moveCount, timeCount, seconds;
+
 		// set game state
 		let seed = 0;
 		let difficulty = 2;	// medium
+
 		let moveCount = 0;
+		let timeCount = 0;
+		let seconds = 0;
+
 		let gameHasEnded = false;
 		let difficultyChosen = false;
 
@@ -78,20 +84,37 @@ class Main {
 		do player.draw();
 
 		// set UI components
-		do Output.moveCursor(2, 8);
+		// moves
+		do Output.moveCursor(2, 15);
 		do Output.printString("Moves: 0");
 
+		// seconds
+		do Output.moveCursor(2, 40);
+		do Output.printString("Time: 0");
+
 		while (~(gameHasEnded)) {
+			// update time
+			let timeCount = timeCount + 1;
+			if (timeCount > 5000) {
+				let seconds	= seconds + 1;
+				let timeCount = Main._mod(timeCount, 1000);
+				do Output.moveCursor(2, 46);
+				do Output.printInt(seconds);
+			}
+
 			let move = Keyboard.keyPressed();
 			if (move > 0) {
+				do player.move(move);
+				let timeCount = timeCount + 1500;
+
+				// update moves
 				let moveCount = Main.updateMoveCount(moveCount);
 
-				do player.move(move);
-				do Sys.wait(200);
-
 				let gameHasEnded = Main.checkForEnd(
-					player, maze, lastCellIndex, moveCount
+					player, maze, lastCellIndex, moveCount, seconds, difficulty
 				);
+
+				do Sys.wait(200);
 			}
 		}
 
@@ -103,7 +126,9 @@ class Main {
 		Player player,
 		Maze maze,
 		int lastCellIndex,
-		int moveCount
+		int moveCount,
+		int seconds,
+		int difficulty
 	) {
 		var int gridIndex;
 
@@ -115,12 +140,13 @@ class Main {
 			do Screen.drawRectangle(0, 0, 511, 45);
 
 			// write end message
-			do Output.moveCursor(0, 0);
-			do Output.printString("You completed the maze!");
-			do Output.println();
-			do Output.printString("It took you ");
-			do Output.printInt(moveCount);
-			do Output.printString(" moves.");
+			do Output.moveCursor(2, 5);
+			do Output.printString(
+				"You completed the maze with the following score: "
+			);
+			do Output.printInt(
+				((difficulty * 500) - (moveCount + seconds))
+			);
 			return true;
 		}
 
@@ -175,8 +201,13 @@ class Main {
 		var int moveCount;
 		let moveCount = count + 1;
 
-		do Output.moveCursor(2, 15);
+		do Output.moveCursor(2, 22);
 		do Output.printInt(moveCount);
 		return moveCount;
+	}
+
+	/** Helper function to calculate a % b */
+	function int _mod(int a, int b) {
+		return (a - ((a/b)*b));
 	}
 }
