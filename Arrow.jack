@@ -1,0 +1,87 @@
+class Arrow {
+	field Point start, end;
+	field boolean isLeftArrow;
+	constructor Arrow new(Point s, Point e, Boolean b) {
+		let start = s;
+		let end = e;
+		let isLeftArrow = b;
+		return this;
+	}
+
+	method void draw() {
+		// body
+		do Screen.drawLine(
+			start.x(),
+			start.y(),
+			end.x(),
+			end.y()
+		);
+
+		if (isLeftArrow) {
+			// left wing
+			do Screen.drawLine(
+				start.x() + 10,
+				start.y() - 3,
+				end.x(),
+				end.y()
+			);
+
+			// right wing
+			do Screen.drawLine(
+				start.x() + 10,
+				start.y() + 3,
+				end.x(),
+				end.y()
+			);
+		} else {
+			// left wing
+			do Screen.drawLine(
+				start.x(),
+				start.y(),
+				end.x() - 10,
+				end.y() - 3
+			);
+
+			// right wing
+			do Screen.drawLine(
+				start.x(),
+				start.y(),
+				end.x() - 10,
+				end.y() + 3
+			);
+		}
+		return;
+	}
+
+	method void up() {
+		do _clear();
+
+		do start.setY(start.y() - 22);
+		do end.setY(end.y() - 22);
+
+		do draw();
+		return;
+	}
+
+	method void down() {
+		do _clear();
+
+		do start.setY(start.y() + 22);
+		do end.setY(end.y() + 22);
+
+		do draw();
+		return;
+	}
+
+	method void _clear() {
+		do Screen.setColor(false);
+		do Screen.drawRectangle(
+			start.x(),
+			start.y() - 5,
+			end.x(),
+			end.y() + 5
+		);
+		do Screen.setColor(true);
+		return;
+	}
+}
