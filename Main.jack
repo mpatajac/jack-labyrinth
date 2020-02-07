@@ -73,14 +73,18 @@ class Main {
 
 		let lastCellIndex = (maze.getRows() * maze.getCols()) - 1;
 
-		// create player and start the game
+		// create player
 		let player = Player.new(maze.getStart(), size, maze.getGrid());
 		do player.draw();
+
+		// set UI components
+		do Output.moveCursor(2, 8);
+		do Output.printString("Moves: 0");
 
 		while (~(gameHasEnded)) {
 			let move = Keyboard.keyPressed();
 			if (move > 0) {
-				let moveCount = moveCount + 1;
+				let moveCount = Main.updateMoveCount(moveCount);
 
 				do player.move(move);
 				do Sys.wait(200);
@@ -106,6 +110,12 @@ class Main {
 		// players current position in the grid
 		let gridIndex = (player.j() * maze.getCols()) + player.i();
 		if (gridIndex = lastCellIndex) {
+			// clear ui
+			do Screen.setColor(false);
+			do Screen.drawRectangle(0, 0, 511, 45);
+
+			// write end message
+			do Output.moveCursor(0, 0);
 			do Output.printString("You completed the maze!");
 			do Output.println();
 			do Output.printString("It took you ");
@@ -158,5 +168,15 @@ class Main {
 		do Output.printString("Generating maze, please wait ...");
 		// do Sys.wait(300);
 		return;
+	}
+
+	/** Update internal move counter and display change on the screen */
+	function int updateMoveCount(int count) {
+		var int moveCount;
+		let moveCount = count + 1;
+
+		do Output.moveCursor(2, 15);
+		do Output.printInt(moveCount);
+		return moveCount;
 	}
 }
