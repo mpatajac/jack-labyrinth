@@ -38,7 +38,7 @@ class Main {
 		do leftArrow.draw();
 		do rightArrow.draw();
 
-		// track the input -> used to determine RNG seed
+		// track the input -> used to determine difficulty and RNG seed
 		while (~(difficultyChosen)) {
 			let seed = seed + 1;
 			let key = Keyboard.keyPressed();
@@ -50,14 +50,14 @@ class Main {
 					do leftArrow.up();
 					do rightArrow.up();
 					let difficulty = difficulty - 1;
-					do Sys.wait(100);
+					do Sys.wait(200);
 				}
 				// down
 				if ((key = 133) & (difficulty < 3)) {
 					do leftArrow.down();
 					do rightArrow.down();
 					let difficulty = difficulty + 1;
-					do Sys.wait(100);
+					do Sys.wait(200);
 				}
 			}
 		}
@@ -156,7 +156,7 @@ class Main {
 		do Screen.clearScreen();
 		do Output.moveCursor(10, 15);
 		do Output.printString("Generating maze, please wait ...");
-		do Sys.wait(300);
+		// do Sys.wait(300);
 		return;
 	}
 }
