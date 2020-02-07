@@ -19,4 +19,16 @@ class Point {
 	method int y() {
 		return y;
 	}
+
+	/** Setter method for the x coordinate */
+	method void setX(int _x) {
+		let x = _x;
+		return;
+	}
+
+	/** Setter method for the y coordinate */
+	method void setY(int _y) {
+		let y = _y;
+		return;
+	}
 }
