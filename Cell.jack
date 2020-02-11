@@ -24,6 +24,20 @@ class Cell {
 		return this;
 	}
 
+	method void dispose() {
+		do size.dispose();
+		do row.dispose();
+		do col.dispose();
+		do i.dispose();
+		do j.dispose();
+
+		do right.dispose();
+		do bottom.dispose();
+		do visited.dispose();
+
+		return;
+	}
+
 	/** Method for drawing the cell onto the screen */
 	method void draw() {
 		// if exists, draw the right wall

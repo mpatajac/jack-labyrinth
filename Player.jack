@@ -35,6 +35,17 @@ class Player {
 		return;
 	}
 
+	/** Free allocated memory */
+	method void dispose() {
+		do i.dispose();
+		do j.dispose();
+		do x.dispose();
+		do y.dispose();
+		do playerSize.dispose();
+		do cellSize.dispose();
+		return;
+	}
+
 	/** Method for moving the player square in desired direction */
 	method void move(int dir) {
 		/*

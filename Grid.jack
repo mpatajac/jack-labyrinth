@@ -238,4 +238,20 @@ class Grid {
 
 		return;
 	}
+
+	/** Free allocated memory */
+	method void dispose() {
+		var int i;
+		var Cell c;
+		let i = 0;
+		while(i < (rows*cols)) {
+			let c = cells[i];
+			do c.dispose();
+			let i = i + 1;
+		}
+
+		do cells.dispose();
+		do start.dispose();
+		return;
+	}
 }

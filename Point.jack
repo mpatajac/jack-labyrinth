@@ -31,4 +31,12 @@ class Point {
 		let y = _y;
 		return;
 	}
+
+	/** Free allocated memory */
+	method void dispose() {
+		do x.dispose();
+		do y.dispose();
+
+		return;
+	}
 }

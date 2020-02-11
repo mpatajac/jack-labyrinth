@@ -8,6 +8,13 @@ class Arrow {
 		return this;
 	}
 
+	method void dispose() {
+		do start.dispose();
+		do end.dispose();
+		do isLeftArrow.dispose();
+		return;
+	}
+
 	method void draw() {
 		// body
 		do Screen.drawLine(
