@@ -1,0 +1,91 @@
+class Border {
+	function void slowDraw(int x1, int y1, int x2, int y2) {
+		var int r;
+		let r = 20;
+
+		do Border.drawCircleBorder(x1, y1, r);
+		do Sys.wait(300);
+		do Border.drawCircleBorder(x2, y1, r);
+		do Sys.wait(300);
+		do Border.drawCircleBorder(x1, y2, r);
+		do Sys.wait(300);
+		do Border.drawCircleBorder(x2, y2, r);
+		do Sys.wait(300);
+
+
+		do Screen.drawLine(x1, y1 - r, x2, y1 - r);
+		do Screen.drawLine(x1, y1 - r + 1, x2, y1 - r + 1);
+		do Sys.wait(300);
+
+		do Screen.drawLine(x1 - r, y1, x1 - r, y2);
+		do Screen.drawLine(x1 - r + 1, y1, x1 - r + 1, y2);
+		do Sys.wait(300);
+
+		do Screen.drawLine(x1, y2 + r, x2, y2 + r);
+		do Screen.drawLine(x1, y2 + r - 1, x2, y2 + r - 1);
+		do Sys.wait(300);
+
+		do Screen.drawLine(x2 + r, y1, x2 + r, y2);
+		do Screen.drawLine(x2 + r - 1, y1, x2 + r - 1, y2);
+		do Sys.wait(300);
+
+
+		do Screen.setColor(false);
+
+		do Screen.drawRectangle(x1 - r + 2, y1, x2 + r - 2, y1 + r);
+		do Sys.wait(300);
+		do Screen.drawRectangle(x1 - r + 2, y2 - r, x2 + r - 2, y2);
+		do Sys.wait(300);
+		do Screen.drawRectangle(x1, y1 - r + 2, x1 + r, y2 + r - 2);
+		do Sys.wait(300);
+		do Screen.drawRectangle(x2 - r, y1 - r + 2, x2, y2 + r - 2);
+		do Sys.wait(300);
+
+		do Screen.setColor(true);
+		return;
+	}
+
+	function void draw(int x1, int y1, int x2, int y2) {
+		var int r;
+		let r = 20;
+
+		do Border.drawCircleBorder(x1, y1, r);
+		do Border.drawCircleBorder(x2, y1, r);
+		do Border.drawCircleBorder(x1, y2, r);
+		do Border.drawCircleBorder(x2, y2, r);
+
+
+		do Screen.drawLine(x1, y1 - r, x2, y1 - r);
+		do Screen.drawLine(x1, y1 - r + 1, x2, y1 - r + 1);
+
+		do Screen.drawLine(x1 - r, y1, x1 - r, y2);
+		do Screen.drawLine(x1 - r + 1, y1, x1 - r + 1, y2);
+
+		do Screen.drawLine(x1, y2 + r, x2, y2 + r);
+		do Screen.drawLine(x1, y2 + r - 1, x2, y2 + r - 1);
+
+		do Screen.drawLine(x2 + r, y1, x2 + r, y2);
+		do Screen.drawLine(x2 + r - 1, y1, x2 + r - 1, y2);
+
+
+		do Screen.setColor(false);
+
+		do Screen.drawRectangle(x1 - r + 2, y1, x2 + r - 2, y1 + r);
+		do Screen.drawRectangle(x1 - r + 2, y2 - r, x2 + r - 2, y2);
+		do Screen.drawRectangle(x1, y1 - r + 2, x1 + r, y2 + r - 2);
+		do Screen.drawRectangle(x2 - r, y1 - r + 2, x2, y2 + r - 2);
+
+		do Screen.setColor(true);
+		return;
+	}
+
+	function void drawCircleBorder(int x, int y, int r) {
+		do Screen.setColor(true);
+		do Screen.drawCircle(x, y, r);
+		do Screen.setColor(false);
+		do Screen.drawCircle(x, y, r - 2);
+		do Screen.setColor(true);
+
+		return;
+	}
+}
