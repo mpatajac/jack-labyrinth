@@ -48,4 +48,9 @@ class Random {
 
 		return;
 	}
+
+	/** Free allocated memory */
+	method void dispose() {
+		return;
+	}
 }
