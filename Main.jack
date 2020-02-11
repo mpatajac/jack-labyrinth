@@ -9,148 +9,137 @@ class Main {
 
 		var int seed, lastCellIndex;
 		var char difficulty, key;
-		var boolean gameHasEnded, difficultyChosen;
+		var boolean playHasFinished, gameIsRuning, difficultyChosen;
 
 		var Arrow leftArrow, rightArrow;
 
 		var int moveCount, timeCount, seconds;
 
-		// set game state
-		let seed = 0;
-		let difficulty = 2;	// medium
+		let gameIsRuning = true;
+		while (gameIsRuning) {
+			// set game state
+			let seed = 0;
+			let difficulty = 2;	// medium
 
-		let moveCount = 0;
-		let timeCount = 0;
-		let seconds = 0;
+			let moveCount = 0;
+			let timeCount = 0;
+			let seconds = 0;
 
-		let gameHasEnded = false;
-		let difficultyChosen = false;
+			let playHasFinished = false;
+			let difficultyChosen = false;
 
-		// draw home screen
-		do Main.home();
+			// draw home screen
+			do Main.home();
 
-		// draw the arrows
-		let leftArrow = Arrow.new(
-			Point.new(181, 150),
-			Point.new(196, 150),
-			true
-		);
-		let rightArrow = Arrow.new(
-			Point.new(280, 150),
-			Point.new(295, 150),
-			false
-		);
+			// draw the arrows
+			let leftArrow = Arrow.new(
+				Point.new(181, 150),
+				Point.new(196, 150),
+				true
+			);
+			let rightArrow = Arrow.new(
+				Point.new(280, 150),
+				Point.new(295, 150),
+				false
+			);
 
-		do leftArrow.draw();
-		do rightArrow.draw();
+			do leftArrow.draw();
+			do rightArrow.draw();
 
-		// track the input -> used to determine difficulty and RNG seed
-		while (~(difficultyChosen)) {
-			let seed = seed + 1;
-			let key = Keyboard.keyPressed();
-			if (key = 128) {
-				let difficultyChosen = true;
-			} else {
-				// up
-				if ((key = 131) & (difficulty > 1)) {
-					do leftArrow.up();
-					do rightArrow.up();
-					let difficulty = difficulty - 1;
+			// track the input -> used to determine difficulty and RNG seed
+			while (~(difficultyChosen)) {
+				let seed = seed + 1;
+				let key = Keyboard.keyPressed();
+				if (key = 128) {
+					let difficultyChosen = true;
+				} else {
+					// up
+					if ((key = 131) & (difficulty > 1)) {
+						do leftArrow.up();
+						do rightArrow.up();
+						let difficulty = difficulty - 1;
+						do Sys.wait(200);
+					}
+					// down
+					if ((key = 133) & (difficulty < 3)) {
+						do leftArrow.down();
+						do rightArrow.down();
+						let difficulty = difficulty + 1;
+						do Sys.wait(200);
+					}
+				}
+			}
+
+			// "Loading screen" (for harder mazes)
+			do Main.load();
+
+			// set size according to difficulty
+			let size = Main.setDifficulty(difficulty);
+
+			// generate and draw the maze
+			let maze = Maze.new(seed, size);
+
+			let lastCellIndex = (maze.getRows() * maze.getCols()) - 1;
+
+			// create player
+			let player = Player.new(maze.getStart(), size, maze.getGrid());
+			do player.draw();
+
+			// set UI components
+			// moves
+			do Output.moveCursor(2, 15);
+			do Output.printString("Moves: 0");
+
+			// seconds
+			do Output.moveCursor(2, 40);
+			do Output.printString("Time: 0");
+
+			while (~(playHasFinished)) {
+				// update time
+				let timeCount = timeCount + 1;
+				if (timeCount > 5000) {
+					let seconds	= seconds + 1;
+					let timeCount = Main._mod(timeCount, 1000);
+					do Output.moveCursor(2, 46);
+					do Output.printInt(seconds);
+				}
+
+				let move = Keyboard.keyPressed();
+				if (move > 0) {
+					do player.move(move);
+					let timeCount = timeCount + 1500;
+
+					// update moves
+					let moveCount = Main.updateMoveCount(moveCount);
+
+					let playHasFinished = Main.checkForEnd(
+						player, maze, lastCellIndex
+					);
+
 					do Sys.wait(200);
 				}
-				// down
-				if ((key = 133) & (difficulty < 3)) {
-					do leftArrow.down();
-					do rightArrow.down();
-					let difficulty = difficulty + 1;
-					do Sys.wait(200);
-				}
-			}
-		}
-
-		// "Loading screen" (for harder mazes)
-		do Main.load();
-
-		// set size according to difficulty
-		let size = Main.setDifficulty(difficulty);
-
-		// generate and draw the maze
-		let maze = Maze.new(seed, size);
-
-		let lastCellIndex = (maze.getRows() * maze.getCols()) - 1;
-
-		// create player
-		let player = Player.new(maze.getStart(), size, maze.getGrid());
-		do player.draw();
-
-		// set UI components
-		// moves
-		do Output.moveCursor(2, 15);
-		do Output.printString("Moves: 0");
-
-		// seconds
-		do Output.moveCursor(2, 40);
-		do Output.printString("Time: 0");
-
-		while (~(gameHasEnded)) {
-			// update time
-			let timeCount = timeCount + 1;
-			if (timeCount > 5000) {
-				let seconds	= seconds + 1;
-				let timeCount = Main._mod(timeCount, 1000);
-				do Output.moveCursor(2, 46);
-				do Output.printInt(seconds);
 			}
 
-			let move = Keyboard.keyPressed();
-			if (move > 0) {
-				do player.move(move);
-				let timeCount = timeCount + 1500;
+			let gameIsRuning = Main.endScreen(moveCount, seconds, difficulty);
+			do Sys.wait(200);
 
-				// update moves
-				let moveCount = Main.updateMoveCount(moveCount);
-
-				let gameHasEnded = Main.checkForEnd(
-					player, maze, lastCellIndex, moveCount, seconds, difficulty
-				);
-
-				do Sys.wait(200);
-			}
+			// delete old objects
+			do maze.dispose();
+			do player.dispose();
+			do leftArrow.dispose();
+			do rightArrow.dispose();
 		}
 
 		return;
 	}
 
 	/** Checks if the game has ended */
-	function boolean checkForEnd(
-		Player player,
-		Maze maze,
-		int lastCellIndex,
-		int moveCount,
-		int seconds,
-		int difficulty
-	) {
+	function boolean checkForEnd(Player player, Maze maze, int lastCellIndex) {
 		var int gridIndex;
 
 		// players current position in the grid
 		let gridIndex = (player.j() * maze.getCols()) + player.i();
-		if (gridIndex = lastCellIndex) {
-			// clear ui
-			do Screen.setColor(false);
-			do Screen.drawRectangle(0, 0, 511, 45);
-
-			// write end message
-			do Output.moveCursor(2, 5);
-			do Output.printString(
-				"You completed the maze with the following score: "
-			);
-			do Output.printInt(
-				((difficulty * 500) - (moveCount + seconds))
-			);
-			return true;
-		}
-
-		return false;
+		return (gridIndex = lastCellIndex);
 	}
 
 	/** Set cell size according to difficulty */
@@ -171,6 +160,8 @@ class Main {
 
 	/** Draw home screen */
 	function void home() {
+		do Screen.clearScreen();
+
 		do Output.moveCursor(5, 17);
 		do Output.printString("Welcome to Jack Labyrinth!");
 		do Output.moveCursor(9, 21);
@@ -209,5 +200,32 @@ class Main {
 	/** Helper function to calculate a % b */
 	function int _mod(int a, int b) {
 		return (a - ((a/b)*b));
+	}
+
+	function boolean endScreen(int moveCount, int seconds, int difficulty) {
+		var char key;
+
+		// clear ui
+		do Screen.setColor(false);
+		do Screen.drawRectangle(0, 0, 511, 45);
+		do Screen.setColor(true);
+
+		// write end message
+		do Output.moveCursor(1, 5);
+		do Output.printString(
+			"You completed the maze with the following score: "
+		);
+		do Output.printInt(
+			((difficulty * 500) - (moveCount + seconds))
+		);
+
+		do Output.moveCursor(3, 15);
+		do Output.printString("Press 'Enter' to start again.");
+
+		while (key = 0) {
+			let key = Keyboard.keyPressed();
+		}
+
+		return (key = 128);
 	}
 }
