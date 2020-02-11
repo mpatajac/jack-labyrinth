@@ -36,13 +36,13 @@ class Main {
 
 			// draw the arrows
 			let leftArrow = Arrow.new(
-				Point.new(181, 150),
-				Point.new(196, 150),
+				Point.new(181, 138),
+				Point.new(196, 138),
 				true
 			);
 			let rightArrow = Arrow.new(
-				Point.new(280, 150),
-				Point.new(295, 150),
+				Point.new(280, 138),
+				Point.new(295, 138),
 				false
 			);
 
@@ -169,17 +169,17 @@ class Main {
 	function void home() {
 		do Screen.clearScreen();
 
-		do Output.moveCursor(5, 17);
+		do Output.moveCursor(4, 17);
 		do Output.printString("Welcome to Jack Labyrinth!");
-		do Output.moveCursor(9, 21);
+		do Output.moveCursor(8, 21);
 		do Output.printString("Choose difficulty: ");
-		do Output.moveCursor(11, 28);
+		do Output.moveCursor(10, 28);
 		do Output.printString("easy");
-		do Output.moveCursor(13, 27);
+		do Output.moveCursor(12, 27);
 		do Output.printString("medium");
-		do Output.moveCursor(15, 28);
+		do Output.moveCursor(14, 28);
 		do Output.printString("hard");
-		do Output.moveCursor(21, 16);
+		do Output.moveCursor(20, 16);
 		do Output.printString("(Press 'Enter' to continue)");
 
 		return;
@@ -211,28 +211,81 @@ class Main {
 
 	function boolean endScreen(int moveCount, int seconds, int difficulty) {
 		var char key;
+		var boolean playAgain;
+		var int x1, y1, x2, y2;
+		var Arrow leftArrow, rightArrow;
 
-		// clear ui
+		let x1 = 100;
+		let y1 = 75;
+		let x2 = 380;
+		let y2 = 200;
+
+		// clear middle
 		do Screen.setColor(false);
-		do Screen.drawRectangle(0, 0, 511, 45);
+		do Screen.drawRectangle(x1 - 20, y1 - 20, x2 + 20, y2 + 20);
 		do Screen.setColor(true);
 
+		// draw border
+		do Border.draw(100, 75, 380, 200);
+
 		// write end message
-		do Output.moveCursor(1, 5);
-		do Output.printString(
-			"You completed the maze with the following score: "
-		);
+		do Output.moveCursor(7, 19);
+		do Output.printString("You completed the maze ");
+		do Output.moveCursor(8, 18);
+		do Output.printString("with the following score:");
+
+		do Sys.wait(700);
+
+		do Output.moveCursor(10, 28);
 		do Output.printInt(
 			((difficulty * 500) - (moveCount + seconds))
 		);
 
-		do Output.moveCursor(3, 15);
-		do Output.printString("Press 'Enter' to start again.");
+		do Sys.wait(1000);
 
-		while (key = 0) {
+		do Output.moveCursor(13, 24);
+		do Output.printString("Play again?");
+
+		do Output.moveCursor(15, 28);
+		do Output.printString("Yes");
+
+		do Output.moveCursor(17, 28);
+		do Output.printString("No");
+
+		do Sys.wait(250);
+
+		let leftArrow = Arrow.new(
+			Point.new(185, 171),
+			Point.new(200, 171),
+			true
+		);
+		let rightArrow = Arrow.new(
+			Point.new(270, 171),
+			Point.new(285, 171),
+			false
+		);
+
+		do leftArrow.draw();
+		do rightArrow.draw();
+
+		let playAgain = true;
+		while (~(key = 128)) {
 			let key = Keyboard.keyPressed();
+			if ((key = 133) & playAgain) {
+				do leftArrow.down();
+				do rightArrow.down();
+				let playAgain = false;
+				do Sys.wait(100);
+			}
+
+			if ((key = 131) & ~(playAgain)) {
+				do leftArrow.up();
+				do rightArrow.up();
+				let playAgain = true;
+				do Sys.wait(100);
+			}
 		}
 
-		return (key = 128);
+		return playAgain;
 	}
 }
