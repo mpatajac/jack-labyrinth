@@ -234,6 +234,7 @@ class Main {
 		return (a - ((a/b)*b));
 	}
 
+	/** Write end message and check for restart */
 	function boolean endScreen(int moveCount, int seconds, int difficulty) {
 		var char key;
 		var boolean playAgain;
