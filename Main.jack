@@ -1,6 +1,7 @@
 /** Driver code */
 class Main {
 	function void main() {
+		/** Variable declaration */
 		var int size;
 		var Maze maze;
 
@@ -15,6 +16,8 @@ class Main {
 
 		var int moveCount, timeCount, seconds;
 
+
+		/** Game setup */
 		let gameIsRuning = true;
 		while (gameIsRuning) {
 			// set game state
@@ -85,7 +88,8 @@ class Main {
 			let player = Player.new(maze.getStart(), size, maze.getGrid());
 			do player.draw();
 
-			// set UI components
+
+			/** UI setup */
 			// moves
 			do Output.moveCursor(2, 15);
 			do Output.printString("Moves: 0");
@@ -94,6 +98,8 @@ class Main {
 			do Output.moveCursor(2, 40);
 			do Output.printString("Time: 0");
 
+
+			/** Game mechanics */
 			while (~(playHasFinished)) {
 				// update time
 				let timeCount = timeCount + 1;
@@ -123,7 +129,8 @@ class Main {
 			let gameIsRuning = Main.endScreen(moveCount, seconds, difficulty);
 			do Sys.wait(200);
 
-			// delete old objects
+
+			/** Memory cleanup */
 			do maze.dispose();
 			do player.dispose();
 			do leftArrow.dispose();
