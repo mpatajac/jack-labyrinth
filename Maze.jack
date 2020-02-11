@@ -19,8 +19,6 @@ class Maze {
 
 	/** Method used for drawing the maze onto the screen */
 	method void draw() {
-		do Screen.clearScreen();
-		do Output.moveCursor(0, 0);
 		do g.draw();
 
 		return;
