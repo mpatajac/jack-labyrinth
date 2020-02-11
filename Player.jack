@@ -37,12 +37,6 @@ class Player {
 
 	/** Free allocated memory */
 	method void dispose() {
-		do i.dispose();
-		do j.dispose();
-		do x.dispose();
-		do y.dispose();
-		do playerSize.dispose();
-		do cellSize.dispose();
 		return;
 	}
 

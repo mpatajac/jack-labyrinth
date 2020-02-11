@@ -34,9 +34,6 @@ class Point {
 
 	/** Free allocated memory */
 	method void dispose() {
-		do x.dispose();
-		do y.dispose();
-
 		return;
 	}
 }
