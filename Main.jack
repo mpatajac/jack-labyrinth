@@ -79,13 +79,16 @@ class Main {
 			// set size according to difficulty
 			let size = Main.setDifficulty(difficulty);
 
-			// generate and draw the maze
+			// generate the maze
 			let maze = Maze.new(seed, size);
 
 			let lastCellIndex = (maze.getRows() * maze.getCols()) - 1;
 
 			// create player
 			let player = Player.new(maze.getStart(), size, maze.getGrid());
+
+			// draw the maze and the player
+			do maze.draw();
 			do player.draw();
 
 

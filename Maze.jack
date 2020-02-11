@@ -14,12 +14,16 @@ class Maze {
 		// turn the grid into a maze
 		do g.generateMaze(seed);
 
-		// draw the maze
+		return this;
+	}
+
+	/** Method used for drawing the maze onto the screen */
+	method void draw() {
 		do Screen.clearScreen();
 		do Output.moveCursor(0, 0);
 		do g.draw();
 
-		return this;
+		return;
 	}
 
 	/** Free allocated memory */
