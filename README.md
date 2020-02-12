@@ -5,19 +5,19 @@ Jack labyrinth is a maze game created using Jack language from nand2tetris cours
 Just load the entire folder into VMEmulator and run it.
 
 ## Screens
-*Home*
+*Home*\
 ![Home screen](/screens/home.PNG?raw=true "Home")
 
-*Easy*
+*Easy*\
 ![Easy mode](/screens/easy.PNG?raw=true "Easy")
 
-*Medium*
+*Medium*\
 ![Medium mode](/screens/medium.PNG?raw=true "Medium")
 
-*Hard*
+*Hard*\
 ![Hard mode](/screens/hard.PNG?raw=true "Hard")
 
-*End*
+*End*\
 ![End screen](/screens/end.PNG?raw=true "End")
 
 
