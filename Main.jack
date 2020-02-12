@@ -201,21 +201,38 @@ class Main {
 
 	/** Run the countdown before the start of the game */
 	function void countdown() {
-		var int i;
-
 		do Screen.clearScreen();
 
-		let i = 3;
-		while(i > 0) {
-			do Output.moveCursor(10, 30);
-			do Output.printInt(i);
-			let i = i - 1;
-			do Sys.wait(1000);
-		}
+		// draw 3
+		do Screen.drawRectangle(200, 70, 290, 90);
+		do Screen.drawRectangle(200, 120, 290, 140);
+		do Screen.drawRectangle(200, 170, 290, 190);
+		do Screen.drawRectangle(270, 90, 290, 170);
+		do Sys.wait(1000);
 
-		// clear the digit
-		do Output.moveCursor(10, 30);
-		do Output.printChar(32);
+		// clear
+		do Screen.setColor(false);
+		do Screen.drawRectangle(270, 141, 290, 169);
+		do Screen.setColor(true);
+
+		// draw 2
+		do Screen.drawRectangle(200, 141, 220, 169);
+		do Sys.wait(1000);
+
+		// clear
+		do Screen.setColor(false);
+		do Screen.drawRectangle(200, 70, 290, 190);
+		do Screen.setColor(true);
+
+		// draw 1
+		do Screen.drawRectangle(235, 70, 255, 190);
+		do Sys.wait(1000);
+
+		// clear
+		do Screen.setColor(false);
+		do Screen.drawRectangle(235, 70, 255, 190);
+		do Screen.setColor(true);
+
 		return;
 	}
 
