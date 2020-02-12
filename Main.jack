@@ -277,14 +277,14 @@ class Main {
 		do Output.moveCursor(8, 18);
 		do Output.printString("with the following score:");
 
-		do Sys.wait(700);
+		do Sys.wait(1250);
 
 		do Output.moveCursor(10, 28);
 		do Output.printInt(
 			((difficulty * 500) - (moveCount + seconds))
 		);
 
-		do Sys.wait(1000);
+		do Sys.wait(500);
 
 		do Output.moveCursor(13, 24);
 		do Output.printString("Play again?");
@@ -295,7 +295,7 @@ class Main {
 		do Output.moveCursor(17, 28);
 		do Output.printString("No");
 
-		do Sys.wait(250);
+		do Sys.wait(200);
 
 		let leftArrow = Arrow.new(
 			Point.new(185, 171),
