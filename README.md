@@ -9,16 +9,16 @@ Home
 ![Home screen](/screens/home.png?raw=true "Home")
 
 Easy
-![Home screen](/screens/easy.png?raw=true "Easy")
+![Easy mode](/screens/easy.png?raw=true "Easy")
 
 Medium
-![Home screen](/screens/medium.png?raw=true "Medium")
+![Medium mode](/screens/medium.png?raw=true "Medium")
 
 Hard
-![Home screen](/screens/hard.png?raw=true "Hard")
+![Hard mode](/screens/hard.png?raw=true "Hard")
 
 End
-![Home screen](/screens/end.png?raw=true "End")
+![End screen](/screens/end.png?raw=true "End")
 
 
 ## Contributing
