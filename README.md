@@ -6,19 +6,19 @@ Just load the entire folder into VMEmulator and run it.
 
 ## Screens
 Home
-![Home screen](/screens/home.png?raw=true "Home")
+![Home screen](/screens/home.PNG?raw=true "Home")
 
 Easy
-![Easy mode](/screens/easy.png?raw=true "Easy")
+![Easy mode](/screens/easy.PNG?raw=true "Easy")
 
 Medium
-![Medium mode](/screens/medium.png?raw=true "Medium")
+![Medium mode](/screens/medium.PNG?raw=true "Medium")
 
 Hard
-![Hard mode](/screens/hard.png?raw=true "Hard")
+![Hard mode](/screens/hard.PNG?raw=true "Hard")
 
 End
-![End screen](/screens/end.png?raw=true "End")
+![End screen](/screens/end.PNG?raw=true "End")
 
 
 ## Contributing
